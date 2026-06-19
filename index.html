@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev. Ahmadi Ayan | Python Developer Portfolio</title>
+    <style>
+        /* ফন্ট ও বেসিক সেটআপ */
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #060913;
+            color: #9ca3af;
+            overflow-x: hidden;
+        }
+
+        /* মোনোস্পেস ফন্ট ক্লাস */
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* ----------------------------------
+           ১. পিউর CSS প্রি-লোডার (NO JAVASCRIPT)
+           নতুন অ্যানিমেশন: ৩-ডট সাইবার পালস ওয়েভ
+        ------------------------------------- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #060913;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+            /* CSS এর মাধ্যমে অটোমেটিক ১.৫ সেকেন্ড পর গায়েব হবে */
+            animation: absoluteHide 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation-delay: 1.5s; 
+            pointer-events: auto;
+        }
+
+        /* নতুন ডট অ্যানিমেশন কন্টেইনার */
+        .cyber-pulse-loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            height: 40px;
+        }
+
+        .cyber-pulse-loader span {
+            width: 12px;
+            height: 12px;
+            background-color: #00ffbf;
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(0, 255, 191, 0.8);
+            animation: pulseWave 1.2s infinite ease-in-out;
+        }
+
+        /* ৩টি ডটের আলাদা টাইমিং ওয়েভ তৈরির জন্য */
+        .cyber-pulse-loader span:nth-child(1) { animation-delay: -0.4s; }
+        .cyber-pulse-loader span:nth-child(2) { animation-delay: -0.2s; }
+        .cyber-pulse-loader span:nth-child(3) { animation-delay: 0s; }
+
+        .loader-logo {
+            font-size: 1.8rem;
+            color: #ffffff;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 255, 191, 0.3);
+        }
+
+        /* অ্যানিমেশন কি-ফ্রেম */
+        @keyframes pulseWave {
+            0%, 100% { transform: scale(0.4); opacity: 0.3; background-color: #00bfff; box-shadow: 0 0 8px rgba(0, 191, 255, 0.4); }
+            50% { transform: scale(1.2); opacity: 1; background-color: #00ffbf; box-shadow: 0 0 16px rgba(0, 255, 191, 0.8); }
+        }
+
+        /* লোডারটি স্ক্রিন থেকে সম্পূর্ণ রিমুভ করার কি-ফ্রেম */
+        @keyframes absoluteHide {
+            0% { opacity: 1; visibility: visible; }
+            99% { opacity: 0; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; pointer-events: none; display: none; }
+        }
+
+        /* ----------------------------------
+           ২. ন্যাভবার সেকশন
+        ------------------------------------- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(6, 9, 19, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(31, 41, 55, 0.4);
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            color: #00ffbf;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .nav-logo span { color: #ffffff; }
+
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .menu-toggle span {
+            width: 28px;
+            height: 2px;
+            background-color: #00ffbf;
+            border-radius: 2px;
+        }
+
+        /* ----------------------------------
+           ৩. হিরো সেকশন (সরাসরি reference: 1000002987.png)
+        ------------------------------------- */
+        .hero {
+            padding: 140px 24px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(31, 41, 55, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(31, 41, 55, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        .avatar-container {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, #00ffbf, #8a2be2, #ff007f);
+            box-shadow: 0 0 30px rgba(0, 255, 191, 0.2);
+            margin-bottom: 35px;
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #111827;
+        }
+
+        .badge {
+            background: rgba(0, 255, 191, 0.06);
+            color: #00ffbf;
+            border: 1px solid rgba(0, 255, 191, 0.15);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #00ffbf;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00ffbf;
+        }
+
+        .hero-name {
+            font-size: 3rem;
+            color: #ffffff;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+
+        .hero-name span {
+            color: #00ffbf;
+            display: block;
+            text-shadow: 0 0 30px rgba(0, 255, 191, 0.3);
+        }
+
+        .hero-subtitle {
+            color: #38bdf8;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .hero-desc {
+            max-width: 540px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #9ca3af;
+            margin-bottom: 40px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 60px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #00ffbf;
+            color: #060913;
+            border: none;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 191, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-secondary:hover {
+            border-color: #00ffbf;
+            background: rgba(0, 255, 191, 0.02);
+            transform: translateY(-2px);
+        }
+
+        /* স্ট্যাটস গ্রিড */
+        .stats-grid {
+            width: 100%;
+            max-width: 600px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            border-top: 1px solid rgba(31, 41, 55, 0.4);
+            padding-top: 40px;
+        }
+
+        .stat-card h3 {
+            font-size: 1.8rem;
+            color: #00ffbf;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-card p {
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #4b5563;
+            font-weight: 600;
+        }
+
+        /* ----------------------------------
+           ৪. অ্যাবাউট মি সেকশন (সরাসরি reference: 1000002988.png)
+        ------------------------------------- */
+        .section-container {
+            padding: 60px 24px;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            color: #00ffbf;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ffffff;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+        .section-title span { color: #00ffbf; }
+
+        .about-text {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #9ca3af;
+            margin-bottom: 25px;
+        }
+        .about-text strong { color: #ffffff; }
+        .about-text span.highlight { color: #00ffbf; font-weight: 600; }
+
+        /* ইনফো মেটা টেবিল */
+        .info-table {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(31, 41, 55, 0.4);
+            font-size: 0.85rem;
+        }
+
+        .info-label {
+            color: #00ffbf;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .info-value { color: #ffffff; }
+        .info-value a { color: #00ffbf; text-decoration: none; }
+        .info-value span.status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #00ffbf;
+            border-radius: 50%;
+            margin-right: 6px;
+            box-shadow: 0 0 8px #00ffbf;
+        }
+
+        /* ----------------------------------
+           ৫. কন্টাক্ট সেকশন (সরাসরি reference: 1000002989.png)
+        ------------------------------------- */
+        .contact-card-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .contact-box {
+            background-color: rgba(17, 24, 39, 0.4);
+            border: 1px solid rgba(31, 41, 55, 0.5);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            background-color: rgba(31, 41, 55, 0.4);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ffbf;
+            font-size: 1.2rem;
+        }
+
+        .contact-meta p:first-child {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #4b5563;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .contact-meta p:last-child {
+            font-size: 0.9rem;
+            color: #ffffff;
+        }
+
+        .social-row {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .social-icon-btn {
+            flex: 1;
+            height: 46px;
+            background-color: transparent;
+            border: 1px solid rgba(31, 41, 55, 0.6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .social-icon-btn:hover {
+            border-color: #00ffbf;
+            color: #00ffbf;
+            background-color: rgba(0, 255, 191, 0.02);
+        }
+
+        .form-label {
+            color: #00ffbf;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            background-color: transparent;
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ffbf;
+            text-decoration: none;
+            font-size: 1.2rem;
+            z-index: 99;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            border-color: #00ffbf;
+            background-color: rgba(0, 255, 191, 0.05);
+        }
+
+        @media (max-width: 480px) {
+            .hero-name { font-size: 2.3rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .social-row { flex-wrap: wrap; display: grid; grid-template-columns: repeat(4, 1fr); }
+            .social-icon-btn:nth-child(n+5) { grid-column: span 2; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="cyber-pulse-loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="loader-logo mono">&lt;Ahmadi Ayan /&gt;</div>
+    </div>
+
+    <nav class="navbar">
+        <a href="#" class="nav-logo mono">&lt; <span>Info. Ahmadi Ayan</span> /&gt;</a>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="avatar-container">
+            <img src="https://via.placeholder.com/180" alt="Ahmadi Ayan">
+        </div>
+
+        <div class="badge mono">AVAILABLE FOR FREELANCE PROJECTS</div>
+
+        <h1 class="hero-name">Ahmadi<br><span>Ayan</span></h1>
+        
+        <div class="hero-subtitle mono">&gt; BotLa Developer</div>
+
+        <p class="hero-desc">
+            A passionate Python Developer from Bangladesh, crafting intelligent automation tools, bots, web scrapers, and backend systems. I turn complex ideas into clean, efficient code.
+        </p>
+
+        <div class="btn-group">
+            <a href="#contact" class="btn btn-primary mono">➔ GET IN TOUCH</a>
+            <a href="#" class="btn btn-secondary mono">&lt;/&gt; NO PROJECTS</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 class="mono">0+</h3>
+                <p class="mono">Years Exp</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="mono">0+</h3>
+                <p class="mono">Projects</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="mono">0+</h3>
+                <p class="mono">Clients</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="mono">0%</h3>
+                <p class="mono">Satisfied</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="about">
+        <span class="section-tag mono">01 — About Me</span>
+        <h2 class="section-title">Building the Future<br><span>One Script</span> at a Time</h2>
+        
+        <p class="about-text">
+            Hi, I'm <span class="highlight">Ahmadi Ayan</span>, a dedicated Python Developer from <strong>Bangladesh</strong>. I specialise in building powerful automation tools, intelligent bots, web scrapers, and backend APIs that solve real-world problems efficiently.
+        </p>
+        <p class="about-text">
+            With 0+ years of hands-on experience I've worked on everything from Telegram & Discord bots to full-scale scraping engines and REST APIs. I believe great software is about reliability, scalability, and clean architecture.
+        </p>
+        <p class="about-text">
+            When I'm not coding I'm writing tutorials, contributing to open-source, or experimenting with AI integrations.
+        </p>
+
+        <div class="info-table">
+            <div class="info-row">
+                <div class="info-label mono">Name</div>
+                <div class="info-value">Ahmadi Ayan</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label mono">Location</div>
+                <div class="info-value">Bahir Signal, Chandgaon, Chittagong 🇧🇩</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label mono">Email</div>
+                <div class="info-value"><a href="mailto:infoearnwithayan@gmail.com">infoearnwithayan@gmail.com</a></div>
+            </div>
+            <div class="info-row">
+                <div class="info-label mono">Telegram</div>
+                <div class="info-value"><a href="https://t.me/AhmadiAyan" target="_blank">@AhmadiAyan</a></div>
+            </div>
+            <div class="info-row">
+                <div class="info-label mono">Status</div>
+                <div class="info-value"><span class="status-dot"></span>Open to Work</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label mono">Freelance</div>
+                <div class="info-value">Available</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="contact">
+        <span class="section-tag mono">05 — Get In Touch</span>
+        <h2 class="section-title">Let's <span>Work Together</span></h2>
+        <p class="about-text">Have a project in mind? My inbox is always open.</p>
+
+        <h3 style="color: #ffffff; margin-top: 40px; font-weight: 700; font-size: 1.3rem;">Contact Information</h3>
+        <p class="about-text" style="font-size: 0.9rem; margin-top: 10px;">Whether it's a new project, a quick question, or just to say hello — reach out anytime.</p>
+
+        <div class="contact-card-grid">
+            <div class="contact-box">
+                <div class="contact-icon">✉</div>
+                <div class="contact-meta">
+                    <p class="mono">Email</p>
+                    <p>infoearnwithayan@gmail.com</p>
+                </div>
+            </div>
+            <div class="contact-box">
+                <div class="contact-icon">💬</div>
+                <div class="contact-meta">
+                    <p class="mono">WhatsApp</p>
+                    <p>+880 13-4597-8140</p>
+                </div>
+            </div>
+            <div class="contact-box">
+                <div class="contact-icon">✈</div>
+                <div class="contact-meta">
+                    <p class="mono">Telegram</p>
+                    <p>@AhmadiAyan</p>
+                </div>
+            </div>
+            <div class="contact-box">
+                <div class="contact-icon">📍</div>
+                <div class="contact-meta">
+                    <p class="mono">Location</p>
+                    <p>Bangladesh 🇧🇩</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="social-row">
+  
